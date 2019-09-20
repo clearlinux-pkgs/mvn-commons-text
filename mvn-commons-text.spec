@@ -4,14 +4,19 @@
 #
 Name     : mvn-commons-text
 Version  : 1.4
-Release  : 2
+Release  : 3
 URL      : https://repo1.maven.org/maven2/org/apache/commons/commons-text/1.4/commons-text-1.4.jar
 Source0  : https://repo1.maven.org/maven2/org/apache/commons/commons-text/1.4/commons-text-1.4.jar
-Source1  : https://repo1.maven.org/maven2/org/apache/commons/commons-text/1.4/commons-text-1.4.pom
+Source1  : https://repo1.maven.org/maven2/org/apache/commons/commons-text/1.3/commons-text-1.3.jar
+Source2  : https://repo1.maven.org/maven2/org/apache/commons/commons-text/1.3/commons-text-1.3.pom
+Source3  : https://repo1.maven.org/maven2/org/apache/commons/commons-text/1.4/commons-text-1.4.pom
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0
 Requires: mvn-commons-text-data = %{version}-%{release}
+Requires: mvn-commons-text-license = %{version}-%{release}
+BuildRequires : apache-maven
+BuildRequires : buildreq-mvn
 
 %description
 No detailed description available
@@ -24,16 +29,33 @@ Group: Data
 data components for the mvn-commons-text package.
 
 
+%package license
+Summary: license components for the mvn-commons-text package.
+Group: Default
+
+%description license
+license components for the mvn-commons-text package.
+
+
 %prep
+%setup -q -n META-INF
 
 %build
 
 %install
+mkdir -p %{buildroot}/usr/share/package-licenses/mvn-commons-text
+cp LICENSE.txt %{buildroot}/usr/share/package-licenses/mvn-commons-text/LICENSE.txt
 mkdir -p %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4
-cp %{SOURCE0} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4
+cp %{SOURCE0} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4/commons-text-1.4.jar
+
+mkdir -p %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.3
+cp %{SOURCE1} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.jar
+
+mkdir -p %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.3
+cp %{SOURCE2} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.pom
 
 mkdir -p %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4
-cp %{SOURCE1} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4
+cp %{SOURCE3} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4/commons-text-1.4.pom
 
 
 %files
@@ -41,5 +63,11 @@ cp %{SOURCE1} %{buildroot}/usr/share/java/.m2/repository/org/apache/commons/comm
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.jar
+/usr/share/java/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.pom
 /usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4/commons-text-1.4.jar
 /usr/share/java/.m2/repository/org/apache/commons/commons-text/1.4/commons-text-1.4.pom
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/mvn-commons-text/LICENSE.txt
